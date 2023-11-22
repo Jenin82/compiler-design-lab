@@ -38,7 +38,6 @@ char last_operator = 0;
     last_operator = 0;
 }
 . {
-    // Handle invalid characters
     printf("Invalid character: %s\n", yytext);
 }
 %%
