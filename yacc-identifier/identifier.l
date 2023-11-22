@@ -1,12 +1,11 @@
 %{
 #include "y.tab.h"
-extern void yyerror();
 %}
 
 %option noyywrap
 
 %%
-[a-zA-Z]([a-zA-Z]|[0-9]|[_])* { return IDENTIFIER; }
+[a-zA-Z]([a-zA-Z_0-9])* { return IDENTIFIER; }
 \n { return 0; }
 . { return 0; }
 %%
