@@ -3,17 +3,17 @@
 int valid=1;
 %}
 
-%token MINUS
-%token PLUS
-%token EXPRESSION
-%token BRACKET
+%token NUMBER
+%token OPERATOR
+%token LPAREN
+%token RPAREN
 
 %%
-E: EXPRESSION
-	| MINUS
-	| PLUS
-	| BRACKET
-	;
+expression
+    : expression OPERATOR expression
+    | LPAREN expression RPAREN
+    | NUMBER
+    ;
 %%
 
 void yyerror() {
