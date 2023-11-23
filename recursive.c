@@ -1,115 +1,58 @@
 #include <stdio.h>
-#include <ctype.h> // Needed for isalnum
+#include <ctype.h>
 
+int i = 0, flag=1;
 char str[100];
-int result = 1, i = 0;
 
-void E();
-void Eprime();
-void T();
-void Tprime();
-void F();
-void Fprime();
-void B();
-void Bprime();
-void C();
-
-void E()
-{
+void E() {
 	T();
 	Eprime();
 }
 
-void Eprime()
-{
-	if (str[i] == '+')
-	{
+void Eprime() {
+	if(str[i] == '+' || str[i] == '-') {
 		i++;
 		T();
 		Eprime();
 	}
 }
 
-void T()
-{
+void T() {
 	F();
 	Tprime();
 }
 
-void Tprime()
-{
-	if (str[i] == '*')
-	{
+void Tprime() {
+	if(str[i] == '*' || str[i] == '/') {
 		i++;
 		F();
 		Tprime();
 	}
 }
 
-void F()
-{
-	B();
-	Fprime();
-}
-
-void Fprime()
-{
-	if (str[i] == '/')
-	{
+void F() {
+	if(isalnum(str[i])) {
 		i++;
-		B();
-		Fprime();
-	}
-}
-
-void B()
-{
-	C();
-	Bprime();
-}
-
-void Bprime()
-{
-	// Implement Bprime logic if needed
-}
-
-void C()
-{
-	if (isalnum(str[i]))
-	{
-		i++;
-	}
-	else if (str[i] == '(')
-	{
-		i++;
-		E(); // Call E() here
-		if (str[i] == ')')
-		{
+	} else {
+		if(str[i] == '(') {
 			i++;
-		}
-		else
-		{
-			result = 0;
-		}
-	}
-	else
-	{
-		result = 0;
+			E();
+			if(str[i] == ')') {
+				i++;
+			} else
+				flag = 0;
+		} else
+			flag = 0;
 	}
 }
 
-int main()
-{
-	printf("Enter the string: \n");
-	fgets(str, sizeof(str), stdin); // Safe alternative to gets
+void main() {
+	printf("Enter the expression\n");
+	fgets(str, sizeof(str), stdin);
 	E();
-	if (result)
-	{
-		printf("The string is accepted\n");
+	if(flag) {
+		printf("The expression is valid\n");
+	} else {
+		printf("The expression is invalid\n");
 	}
-	else
-	{
-		printf("The string is not accepted\n");
-	}
-	return 0;
 }
