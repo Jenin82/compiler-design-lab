@@ -1,42 +1,26 @@
-#include <stdio.h>
-#include <string.h>
-
-void main() {
-    char icode[10][30], str[20], opr[10];
-    int i = 0;
-
-    printf("\nEnter the set of intermediate code (terminated by exit):\n");
-
-    do {
-        scanf("%s", icode[i]);
-    } while (strcmp(icode[i++], "exit") != 0);
-
-    printf("\nTarget code generation");
-    printf("\n*******************");
-
-    i = 0;
-    
-    do {
-        strcpy(str, icode[i]);
-
-        switch (str[3]) {
-            case '+':
-                strcpy(opr, "ADD");
-                break;
-            case '-':
-                strcpy(opr, "SUB");
-                break;
-            case '*':
-                strcpy(opr, "MUL");
-                break;
-            case '/':
-                strcpy(opr, "DIV");
-                break;
-        }
-
-        printf("\n\tMov %c,R%d", str[2], i);
-        printf("\n\t%s R%d%c,R%d", opr, i, str[4], i);
-        printf("\n\tMov R%d,%c", i, str[0]);
-
-    } while (strcmp(icode[++i], "exit") != 0);
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+int c=0;
+char res[100],ar1[100],op1[100],op2[100],ar2[100];
+FILE *fp1,*fp2;
+fp1=fopen("in.txt","r");
+fp2=fopen("out.txt","w");
+while(!feof(fp1))
+{
+fscanf(fp1,"%s%s%s%s%s",res,op1,ar1,op2,ar2);
+fprintf(fp2,"mov r%d , %s\n",c,ar1);
+if(strcmp("+",op2)==0)
+fprintf(fp2,"add r%d , %s\n",c,ar2);
+if(strcmp("-",op2)==0)
+fprintf(fp2,"sub r%d , %s\n",c,ar2);
+if(strcmp("*",op2)==0)
+fprintf(fp2,"mul r%d , %s\n",c,ar2);
+if(strcmp("/",op2)==0)
+fprintf(fp2,"div r%d , %s\n",c,ar2);
+fprintf(fp2,"mov %s,r%d\n",res,c);
+fscanf(fp1,"%s%s%s%s%s",res,op1,ar1,op2,ar2);
+c++;
+}
 }
