@@ -12,7 +12,6 @@ int main()
 
     int i, z;
     char c, ch;
-    // clrscr();
     printf("Enter the no of prooductions:\n");
     scanf("%d", &n);
     printf("Enter the productions:\n");
@@ -29,7 +28,6 @@ int main()
             printf("%c", f[i]);
         printf("}\n");
         strcpy(f, " ");
-        // flushall();
         m = 0;
         follow(c);
         printf("Follow(%c)={", c);
