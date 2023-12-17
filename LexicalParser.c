@@ -22,6 +22,16 @@ int isKeyword(char buffer[])
 	return flag;
 }
 
+int isNumeric(const char *str)
+{
+	for (int i = 0; str[i] != '\0'; i++)
+	{
+		if (!isdigit(str[i]))
+			return 0;
+	}
+	return 1;
+}
+
 int main()
 {
 	char ch, buffer[15], operators[] = "+-*/%=";
@@ -40,7 +50,8 @@ int main()
 			if (ch == operators[i])
 				printf("%c is operator\n", ch);
 		}
-
+		if(ch == '(' || ch == ')' || ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == ';')
+			printf("%c is symbol\n", ch);
 		if (isalnum(ch))
 		{
 			buffer[j++] = ch;
@@ -49,8 +60,9 @@ int main()
 		{
 			buffer[j] = '\0';
 			j = 0;
-
-			if (isKeyword(buffer) == 1)
+			if (isNumeric(buffer))
+				printf("%s is constant\n", buffer);
+			else if (isKeyword(buffer) == 1)
 				printf("%s is keyword\n", buffer);
 			else
 				printf("%s is identifier\n", buffer);
