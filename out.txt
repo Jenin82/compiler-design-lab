@@ -1,2 +1,3 @@
-t1=a+b
-a=t1
+mov r0 , b
+add r0 , c
+mov a,r0
