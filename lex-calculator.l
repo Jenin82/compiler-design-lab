@@ -1,51 +1,45 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-double result = 0.0;
-double current_number = 0.0;
-char last_operator = 0;
+#include<stdio.h>
+#include<stdlib.h>
+     
+int op = 0, i;
+float a, b;
+
+void digit() {
+    if (op == 0) {
+        a = atof(yytext);
+    } else {
+        b = atof(yytext);
+    }
+    switch (op) {
+        case 1: a = a + b; break;
+        case 2: a = a - b; break;
+        case 3: a = a * b; break;
+        case 4: a = a / b; break;
+        case 5:
+                for(i=1;i<b;i++){
+                    a *=  a;
+                }
+                break;
+             
+    }
+    op = 0;
+}
 %}
 
 %option noyywrap
 
 %%
-[0-9]+(\.[0-9]+)? {
-    current_number = atof(yytext);
-    if (last_operator) {
-        switch(last_operator) {
-            case '+': result += current_number; break;
-            case '-': result -= current_number; break;
-            case '*': result *= current_number; break;
-            case '/': 
-                if (current_number != 0) {
-                    result /= current_number; 
-                } else {
-                    printf("Error: Division by zero\n");
-                }
-                break;
-        }
-        last_operator = 0;
-    } else {
-        result = current_number;
-    }
-}
-[+\-*/] {
-    last_operator = yytext[0];
-}
-\n {
-    printf("Result: %f\n", result);
-    result = 0;
-    last_operator = 0;
-}
-. {
-    printf("Invalid character: %s\n", yytext);
-}
+[0-9]+("."[0-9]+)? { digit(); }
+"+" { op = 1; }
+"-" { op = 2; }
+"*" { op = 3; }
+"/" { op = 4; }
+"^" { op = 5; }
+\n { printf("\n Answer:%f\n\n", a); }
 %%
 
-void main() {
-    printf("Calculator. Enter expressions with +, -, *, /.\n");
-    printf("Enter a new line to get the result. To exit, press Ctrl+C.\n");
-    while(1) {
-        yylex();
-    }
+int main() {
+    yylex();
+    return 0;
 }
